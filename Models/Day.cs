@@ -11,7 +11,7 @@ namespace HourLoggerApi.Models
         public long Id { get; set; }
 
         [Column("hours")]
-        public int Hours { get; set; }
+        public float Hours { get; set; }
 
         [Column("date")]
         //[DataType(DataType.Date)]
