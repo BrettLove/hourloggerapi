@@ -45,6 +45,39 @@ namespace HourLoggerApi.Controllers
 
             return CreatedAtAction(nameof(GetDay), new {id = day.Id}, day);
         }
+
+        // could also use post for this
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Day>> UpdateDay(long id, Day day)
+        {
+            if (id != day.Id) {
+                return BadRequest();
+            }
+
+            _context.DayLog.Update(day);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+            //return Ok();  // I think this is also ok to do.
+
+            //var Day = await _context.DayLog.FindAsync(id);
+            //_context.Entry(Day).CurrentValues.SetValues(day);
+            //return await _context.SaveChangesAsync();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Day>> DeleteDay(long id)
+        {
+            var day = await _context.DayLog.FindAsync(id);
+            if (day == null) 
+            {
+                return NotFound();
+            }
+            _context.DayLog.Remove(day);
+            await _context.SaveChangesAsync();
+            return Ok();
+            // return NoContent();
+        }
     }
 
 }
