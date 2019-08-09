@@ -40,10 +40,13 @@ namespace HourLoggerApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Day>> CreateDay(Day day) 
         {
-            _context.DayLog.Add(day);
+            // this works, at least for sqlite, but maybe not the best design... make a public model that inherits ?
+            Day Day = day;
+            Day.Id = 0;
+            _context.DayLog.Add(Day);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetDay), new {id = day.Id}, day);
+            return CreatedAtAction(nameof(GetDay), new {id = Day.Id}, Day);
         }
 
         // could also use post for this
